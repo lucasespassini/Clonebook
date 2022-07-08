@@ -108,7 +108,7 @@ class UserController {
     }
   }
 
-  
+
 
   async Login(req, res) {
     let { email, password } = req.body
@@ -128,17 +128,18 @@ class UserController {
           name: user.name,
           email: user.email
         }, secret)
-
+        res.status(200)
         res.json({ token: token })
       } else {
         errors.passwordError = 'Senha incorreta!'
+        res.status(406)
+        res.json({ error: errors })
       }
     } else {
       errors.emailError = 'O usuário não existe!'
+      res.status(406)
+      res.json({ error: errors })
     }
-
-    res.status(406)
-    res.json({ error: errors })
   }
 }
 

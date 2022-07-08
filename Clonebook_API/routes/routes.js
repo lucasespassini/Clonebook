@@ -7,6 +7,7 @@ const PostController = require('../controllers/PostController')
 const CheckLogin = require('../middlewares/CheckLogin')
 
 router.get('/', CheckLogin, HomeController.Index)
+router.post('/validate', CheckLogin, HomeController.validate)
 
 // CRUD do usuário
 router.get('/users', UserController.GetAll)

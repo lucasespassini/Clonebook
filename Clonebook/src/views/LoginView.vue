@@ -34,7 +34,7 @@
       <hr />
       <div class="field is-offset-one-quarter">
         <div class="control">
-          <button @click="login()" class="button is-link">Entrar</button>
+          <button @click="login" class="button is-link">Entrar</button>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@ export default {
         .post("http://localhost:3000/login", {
           email: this.email,
           password: this.password,
-        })
+        }) 
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           this.$router.push({ name: "home" });
@@ -85,7 +85,6 @@ export default {
           } else {
             this.alertPassword = "is-success";
           }
-          return;
         });
     },
   },

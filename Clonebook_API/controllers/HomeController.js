@@ -4,11 +4,11 @@ class HomeController {
   async Index(req, res) {
     try {
       let result = await knex.select([
-        'users.id as user_ID', 
-        'users.user_name as user_USERNAME', 
-        'users.name as user_NAME', 
-        'users.email as user_EMAIL', 
-        'posts.body as post_BODY', 
+        'users.id as user_ID',
+        'users.user_name as user_USERNAME',
+        'users.name as user_NAME',
+        'users.email as user_EMAIL',
+        'posts.body as post_BODY',
         'posts.likes as post_LIKES',
         'posts.datetime as post_DATETIME',
         'posts.user_id as post_USER_ID',
@@ -20,6 +20,10 @@ class HomeController {
     } catch (error) {
       res.json({ error: error })
     }
+  }
+
+  async validate(req, res) {
+    res.send('ok')
   }
 }
 

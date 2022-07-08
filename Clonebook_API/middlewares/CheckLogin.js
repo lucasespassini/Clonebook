@@ -1,4 +1,3 @@
-const { request } = require('express')
 const jwt = require('jsonwebtoken')
 
 const secret = '-09j20-dfj23-j'
@@ -7,7 +6,7 @@ module.exports = (req, res, next) => {
   const authToken = req.headers['authorization']
 
   if (authToken != undefined) {
-    const token = authToken.split(' ')[1]
+    let token = authToken.split(' ')[1]
 
     try {
       let decoded = jwt.verify(token, secret)
