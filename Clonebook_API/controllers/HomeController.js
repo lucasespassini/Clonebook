@@ -18,7 +18,7 @@ class HomeController {
         .orderBy('posts.datetime', 'desc')
       res.json(result)
     } catch (error) {
-      res.json({ error: error })
+      res.status(500)
     }
   }
 

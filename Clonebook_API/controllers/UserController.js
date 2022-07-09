@@ -122,14 +122,18 @@ class UserController {
     if (user != undefined) {
       let result = await bcrypt.compare(password, user.password)
 
+      const authUser = {
+        id: user.id,
+        userName: user.user_name,
+        name: user.name,
+        email: user.email
+        // talvez senha
+      }
+
       if (result) {
-        let token = jwt.sign({
-          userName: user.user_name,
-          name: user.name,
-          email: user.email
-        }, secret)
+        let token = jwt.sign(authUser, secret, { expiresIn: '2d' })
         res.status(200)
-        res.json({ token: token })
+        res.json({ token, authUser })
       } else {
         errors.passwordError = 'Senha incorreta!'
         res.status(406)

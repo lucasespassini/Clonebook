@@ -3,9 +3,11 @@
     <NavBar />
     <div class="container column is-two-fifths">
       <p>Home page</p>
+      <p>User: {{ user }}</p>
+
       <input type="text" v-model="body" />
-      <input type="number" v-model="user_id" />
-      <button @click="register">Postar</button>
+      <button @click="postar">Postar</button>
+
       <hr />
       <div v-for="userPost in usersPosts" :key="userPost.user_ID">
         <PostContainer
@@ -27,11 +29,18 @@ import axios from "axios";
 
 export default {
   created() {
+    this.user = {
+      id: localStorage.getItem("id"),
+      name: localStorage.getItem("name"),
+      userName: localStorage.getItem("username"),
+      email: localStorage.getItem("email"),
+    };
+
     let req = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
 
     axios
       .get("http://localhost:3000", req)
@@ -46,21 +55,26 @@ export default {
     return {
       usersPosts: [],
       body: "",
-      user_id: 7,
+      user: {},
     };
   },
   methods: {
-    register() {
+    postar() {
+      let req = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
       axios
         .post("http://localhost:3000/post", {
           body: this.body,
-          user_id: this.user_id,
+          user_id: this.user.id,
         })
         .then(() => {
           axios
-            .get("http://localhost:3000")
+            .get("http://localhost:3000", req)
             .then((usersPosts) => {
-              console.log(usersPosts.data);
               this.usersPosts = usersPosts.data;
             })
             .catch((error) => {
