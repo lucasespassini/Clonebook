@@ -2,11 +2,34 @@
   <div id="app">
     <NavBar />
     <div class="container column is-two-fifths">
-      <p>Home page</p>
-      <p>User: {{ user }}</p>
-
-      <input type="text" v-model="body" />
-      <button @click="postar">Postar</button>
+      <article class="media mt-4">
+        <figure class="media-left">
+          <p class="image is-64x64">
+            <img
+              class="is-rounded"
+              src="https://bulma.io/images/placeholders/128x128.png"
+            />
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="field">
+            <p class="control">
+              <textarea
+                class="textarea"
+                placeholder="O que está acontecendo?"
+                v-model="body"
+              ></textarea>
+            </p>
+          </div>
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <a @click="postar" class="button is-link">Tweetar</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </article>
 
       <hr />
       <div v-for="userPost in usersPosts" :key="userPost.user_ID">
@@ -72,6 +95,7 @@ export default {
           user_id: this.user.id,
         })
         .then(() => {
+          this.body = "";
           axios
             .get("http://localhost:3000", req)
             .then((usersPosts) => {
@@ -91,3 +115,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.textarea {
+  resize: none;
+}
+.textarea::placeholder {
+  color: #666;
+}
+</style>
