@@ -70,8 +70,8 @@ export default {
       let day = data.split("-")[2];
 
       let dataFormatada = `${year}${month}${day} ${horaCerta}:${minutes}:${seconds}`;
-
-      return moment(dataFormatada, "YYYYMMDD hh:mm:ss").fromNow();
+      
+      return moment(dataFormatada, "YYYYMMDD hh:mm:ss").fromNow()
     },
   },
 };
