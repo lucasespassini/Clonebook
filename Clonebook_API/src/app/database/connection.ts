@@ -1,23 +1,19 @@
 import { DataSource } from "typeorm";
-import { User } from '../entity/User'
-import { Post } from '../entity/Post'
+import { Post } from "../entity/Post";
+import { User } from "../entity/User";
 
-export const Clonebookv2 = new DataSource({
-  type: "mysql",
-  host: "localhost",
+export const dataSource = new DataSource({
+  type: 'mysql',
+  host: '192.168.13.250',
   port: 3306,
-  username: 'root',
-  password: "123456",
-  database: "clonebookv2",
+  username: 'lucas.mendes',
+  password: 'Nq9N868y2rMReZGv73gu',
+  database: 'treinamento',
+  entities: [User, Post],
   synchronize: true,
-  logging: true,
-  entities: [
-    User,
-    Post
-  ],
 });
 
-Clonebookv2.initialize()
+dataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
   })

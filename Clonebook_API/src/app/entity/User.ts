@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from "typeorm"
+import { dataSource as db } from "../database/connection"
 import bcrypt from 'bcrypt'
+import { Post } from './Post'
 
-import { Clonebookv2 as db } from "../database/connection"
-
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number
@@ -28,6 +28,10 @@ export class User {
   @Column()
   password: string
 
+  @JoinColumn()
+  @OneToMany(() => Post, (post) => post.user)
+  public posts: Post[]
+
   public async FindAll() {
     try {
       return await db.getRepository('User').find({
@@ -36,8 +40,10 @@ export class User {
           user_name: true,
           name: true,
           email: true,
-          password: false
-        }
+          password: false,
+          posts: true,
+        },
+        relations: ['posts']
       })
     } catch (error) {
       console.log(error)

@@ -1,10 +1,10 @@
 import { validate } from 'isemail'
 import { Request, Response } from "express";
 
-import { Clonebookv2 } from "../database/connection";
+import { dataSource } from "../database/connection";
 import User from '../entity/User'
 
-const UsersRepository = Clonebookv2.getRepository('User')
+const UsersRepository = dataSource.getRepository('User')
 
 class UserController {
   public async ReadAll(req: Request, res: Response) {
@@ -18,7 +18,7 @@ class UserController {
 
     if (user == undefined) {
       res.status(404)
-      res.json({})
+      res.json({ error: 'Usuário não encontrado!' })
     } else {
       res.json(user)
     }
@@ -89,37 +89,37 @@ class UserController {
     const { id, userName, name } = req.body
 
     const result = await User.Edit(id, userName, name)
-    
+
     if (result != undefined) {
       if (result.status) {
         interface Errors {
           userNameError: string | undefined
           nameError: string | undefined
         }
-    
+
         let errors: Errors = {
           userNameError: undefined,
           nameError: undefined,
         }
-    
+
         if (userName != undefined) {
           const userNameExists = await User.FindByUserName(userName)
-    
+
           if (userNameExists) {
             errors.userNameError = 'O nome de usuário já está em uso!'
-          } 
-      
+          }
+
           if (userName.length < 3) {
             errors.userNameError = 'O nome de usuário deve ter no mínimo 3 caracteres!'
           }
         }
-        
+
         if (name != undefined) {
           if (name.length < 3) {
             errors.nameError = 'O nome deve ter no mínimo 3 caracteres!'
           }
         }
-        
+
         if (errors.userNameError || errors.nameError) {
           res.status(400)
           res.json({ error: errors })
@@ -151,4 +151,4 @@ class UserController {
   }
 }
 
-export const userController = new UserController();
+export default new UserController();
