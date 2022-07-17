@@ -17,7 +17,7 @@
               <textarea
                 class="textarea"
                 placeholder="O que está acontecendo?"
-                v-model="body"
+                v-model="content"
               ></textarea>
             </p>
           </div>
@@ -32,13 +32,11 @@
       </article>
 
       <hr />
-      <div v-for="userPost in usersPosts" :key="userPost.user_ID">
+      <div v-for="userPost in usersPosts" :key="userPost.id">
         <PostContainer
-          :userName="userPost.user_USERNAME"
-          :name="userPost.user_NAME"
-          :post="userPost.post_BODY"
-          :likes="userPost.post_LIKES"
-          :datetime="userPost.post_DATETIME"
+          :userName="userPost.user_name"
+          :name="userPost.name"
+          :posts="userPost.posts"
         />
       </div>
     </div>
@@ -54,8 +52,8 @@ export default {
   created() {
     this.user = {
       id: localStorage.getItem("id"),
+      user_name: localStorage.getItem("user_name"),
       name: localStorage.getItem("name"),
-      userName: localStorage.getItem("username"),
       email: localStorage.getItem("email"),
     };
 
@@ -66,7 +64,7 @@ export default {
     };
 
     axios
-      .get("http://localhost:3000", req)
+      .get("http://localhost:3000/user", req)
       .then((usersPosts) => {
         this.usersPosts = usersPosts.data;
       })
@@ -77,7 +75,7 @@ export default {
   data() {
     return {
       usersPosts: [],
-      body: "",
+      content: "",
       user: {},
     };
   },
@@ -91,8 +89,8 @@ export default {
 
       axios
         .post("http://localhost:3000/post", {
-          body: this.body,
-          user_id: this.user.id,
+          content: this.content,
+          userId: this.user.id,
         })
         .then(() => {
           this.body = "";

@@ -94,41 +94,43 @@ export default {
     register() {
       axios
         .post("http://localhost:3000/user", {
-          userName: this.userName,
+          user_name: this.userName,
           name: this.name,
           email: this.email,
           password: this.password,
         })
-        .then(() => {
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
           this.$router.push({ name: "home" });
         })
         .catch((err) => {
-          this.errorMsg = err.response.data.error;
+          console.log(err)
+          // this.errorMsg = err.response.data.error;
 
-          if (this.errorMsg.userNameError != undefined) {
-            this.alertUserName = "is-danger";
-          } else {
-            this.alertUserName = "is-success";
-          }
+          // if (this.errorMsg.userNameError != undefined) {
+          //   this.alertUserName = "is-danger";
+          // } else {
+          //   this.alertUserName = "is-success";
+          // }
 
-          if (this.errorMsg.nameError != undefined) {
-            this.alertName = "is-danger";
-          } else {
-            this.alertName = "is-success";
-          }
+          // if (this.errorMsg.nameError != undefined) {
+          //   this.alertName = "is-danger";
+          // } else {
+          //   this.alertName = "is-success";
+          // }
 
-          if (this.errorMsg.emailError != undefined) {
-            this.alertEmail = "is-danger";
-          } else {
-            this.alertEmail = "is-success";
-          }
+          // if (this.errorMsg.emailError != undefined) {
+          //   this.alertEmail = "is-danger";
+          // } else {
+          //   this.alertEmail = "is-success";
+          // }
 
-          if (this.errorMsg.passwordError != undefined) {
-            this.alertPassword = "is-danger";
-          } else {
-            this.alertPassword = "is-success";
-          }
-          return;
+          // if (this.errorMsg.passwordError != undefined) {
+          //   this.alertPassword = "is-danger";
+          // } else {
+          //   this.alertPassword = "is-success";
+          // }
+          // return;
         });
     },
   },

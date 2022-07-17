@@ -1,13 +1,19 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { User } from './users/entities/user.entity';
-import { Post } from './posts/entities/post.entity';
-import { CommentsModule } from './comments/comments.module';
-import { Comment } from './comments/entities/comment.entity';
+import { UsersModule } from './modules/users/users.module';
+import { PostsModule } from './modules/posts/posts.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { User } from './modules/users/entities/user.entity';
+import { Post } from './modules/posts/entities/post.entity';
+import { Comment } from './modules/comments/entities/comment.entity';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -29,4 +35,20 @@ import { Comment } from './comments/entities/comment.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .exclude(
+        {
+          path: 'user/login',
+          method: RequestMethod.POST,
+        },
+        {
+          path: 'user',
+          method: RequestMethod.POST,
+        },
+      )
+      .forRoutes('user');
+  }
+}

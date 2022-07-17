@@ -9,39 +9,39 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
+import { hash, compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+
 @Injectable()
 export class UsersService {
+  private secret = '9uj21=09rj210´rj';
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
 
-  async emailExists(email: string): Promise<boolean> {
-    const result = await this.userRepository.findOneBy({
-      email: email,
-    });
-    if (result) {
-      return true;
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    if (user) {
+      return user;
     }
-    return false;
+    return undefined;
   }
 
-  async userNameExists(user_name: string): Promise<boolean> {
-    const result = await this.userRepository.findOneBy({
-      user_name: user_name,
-    });
-    if (result) {
-      return true;
+  async findByUserName(user_name: string) {
+    const user = await this.userRepository.findOneBy({ user_name });
+    if (user) {
+      return user;
     }
-    return false;
+    return undefined;
   }
 
   async create(createUserDto: CreateUserDto) {
+    const newHash = await hash(createUserDto.password, 10);
+    createUserDto.password = newHash;
     const newUser = this.userRepository.create(createUserDto);
-    const emailExists: boolean = await this.emailExists(newUser.email);
-    const userNameExists: boolean = await this.userNameExists(
-      newUser.user_name,
-    );
+    const emailExists = await this.findByEmail(newUser.email);
+    const userNameExists = await this.findByUserName(newUser.user_name);
 
     interface Errors {
       user_nameError: string | undefined;
@@ -53,11 +53,11 @@ export class UsersService {
       emailError: undefined,
     };
 
-    if (userNameExists == true) {
+    if (userNameExists != undefined) {
       errors.user_nameError = 'Esse nome de usuário já está em uso!';
     }
 
-    if (emailExists == true) {
+    if (emailExists != undefined) {
       errors.emailError = 'Esse e-mail já está cadastrado!';
     }
 
@@ -65,8 +65,19 @@ export class UsersService {
       throw new NotAcceptableException({ errors: errors });
     }
 
-    await this.userRepository.save(newUser);
-    return { msg: 'Usuário cadastrado com sucesso!' };
+    const user = await this.userRepository.save(newUser);
+
+    const token = sign(
+      {
+        id: user.id,
+        user_name: user.user_name,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+      'teste',
+    );
+    return { token };
   }
 
   async findAll() {
@@ -122,5 +133,32 @@ export class UsersService {
     const user = await this.findOne(id);
     await this.userRepository.remove(user);
     return { msg: 'Usuário deletado com sucesso!' };
+  }
+
+  async login(loginUserDto: UpdateUserDto) {
+    const user = await this.findByEmail(loginUserDto.email);
+
+    if (!user) {
+      throw new NotFoundException('Esse usuário não existe!');
+    }
+
+    const result = await compare(loginUserDto.password, user.password);
+
+    if (!result) {
+      throw new NotAcceptableException('Senha incorreta!');
+    }
+
+    const token = sign(
+      {
+        id: user.id,
+        user_name: user.user_name,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+      this.secret,
+      { expiresIn: '2d' },
+    );
+    return { token };
   }
 }

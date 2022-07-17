@@ -6,14 +6,19 @@ import axios from 'axios'
 
 function CheckLogin(to, from, next) {
   if (localStorage.getItem('token') != undefined) {
-    let req = {
+    const req = {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }
 
-    axios.post('http://localhost:3000/validate', {}, req)
-      .then(() => {
+    axios.get('http://localhost:3000/user', req)
+      .then(async (res) => {
+        const user = await JSON.parse(res.request.response)[0]
+        localStorage.setItem('id', user.id)
+        localStorage.setItem('user_name', user.user_name)
+        localStorage.setItem('name', user.name)
+        localStorage.setItem('email', user.email)
         next()
       })
       .catch(() => {
