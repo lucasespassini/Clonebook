@@ -12,16 +12,16 @@ function CheckLogin(to, from, next) {
       }
     }
 
-    axios.get('http://localhost:3000/user', req)
+    axios.post('http://localhost:3000/validate',{}, req)
       .then(async (res) => {
-        const user = await JSON.parse(res.request.response)[0]
-        localStorage.setItem('id', user.id)
-        localStorage.setItem('user_name', user.user_name)
-        localStorage.setItem('name', user.name)
-        localStorage.setItem('email', user.email)
+        localStorage.setItem('id', res.data.id)
+        localStorage.setItem('user_name', res.data.user_name)
+        localStorage.setItem('name', res.data.name)
+        localStorage.setItem('email', res.data.email)
         next()
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         next('/login')
       })
   } else {

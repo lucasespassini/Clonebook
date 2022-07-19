@@ -1,79 +1,120 @@
 <template>
-  <div class="box mb-4">
-    <article class="media">
-      <div class="media-left">
-        <figure class="image is-64x64">
-          <img
-            class="is-rounded"
-            src="https://bulma.io/images/placeholders/128x128.png"
-            alt="Image"
-          />
-        </figure>
-      </div>
-      <div class="media-content block">
-        <div class="content">
-          <div>
-            <strong>{{ name }}</strong> <small>@{{ userName }}</small>
-            <small> - {{ 121 }}</small>
-            <p style="margin-top: 8px">{{ posts }}</p>
-          </div>
+  <div>
+    <div class="box mb-4" @click="openModal(postId)">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img
+              class="is-rounded"
+              src="https://bulma.io/images/placeholders/128x128.png"
+              alt="Image"
+            />
+          </figure>
         </div>
-        <nav class="level is-mobile is-flex">
-          <div class="level-left is-justify-content-end is-align-items-center">
-            <a class="level-item" aria-label="like">
-              <span class="icon is-small">
-                <font-awesome-icon icon="fa-solid fa-heart" />
-              </span>
-            </a>
-            <label style="font-size: 12px" class="mr-3">{{ 10 }}</label>
-
-            <a class="level-item" aria-label="comment">
-              <span class="icon is-small">
-                <font-awesome-icon icon="fa-solid fa-comment" />
-              </span>
-            </a>
-            <label style="font-size: 12px">10</label>
+        <div class="media-content block">
+          <div class="content">
+            <div>
+              <strong>{{ user.name }}</strong>
+              <small>@{{ user.user_name }}</small>
+              <small> - {{ time(createdAt) }}</small>
+              <p style="margin-top: 8px">{{ content }}</p>
+            </div>
           </div>
-        </nav>
+          <nav class="level is-mobile is-flex">
+            <div
+              class="level-left is-justify-content-end is-align-items-center"
+            >
+              <a class="level-item" aria-label="like">
+                <span class="icon is-small">
+                  <font-awesome-icon icon="fa-solid fa-heart" />
+                </span>
+              </a>
+              <label style="font-size: 12px" class="mr-3">{{ likes }}</label>
+
+              <a class="level-item" aria-label="comment">
+                <span class="icon is-small">
+                  <font-awesome-icon icon="fa-solid fa-comment" />
+                </span>
+              </a>
+              <label style="font-size: 12px">{{ comments.length }}</label>
+            </div>
+          </nav>
+        </div>
+      </article>
+    </div>
+    <!-- Modal -->
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <!-- Any other Bulma elements you want -->
+        <PostModal 
+          :modalContent="modalContent"
+        />
       </div>
-    </article>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    
   </div>
 </template>
 
 <script>
-// import moment from "moment";
+import PostModal from "@/components/PostModal.vue";
+import moment from "moment";
 
 export default {
+  data() {
+    return {
+      modalVisible: false,
+      modalContent: "",
+      modalLikes: "",
+      modalCreatedAt: "",
+      modalComments: "",
+      modalUser: "",
+    };
+  },
   name: "PostContainer",
   props: {
-    name: String,
-    userName: String,
-    posts: Array,
+    postId: Number,
+    content: String,
+    likes: Number,
+    createdAt: String,
+    comments: Array,
+    user: Object,
   },
   methods: {
-    // time(datetime) {
-    //   let postDatetime = datetime;
-    //   // 2022-07-09T21:02:34.000Z
-    //   let data = postDatetime.split("T")[0];
-    //   let hora = postDatetime.split("T")[1];
+    openModal(postId) {
+      console.log(postId);
+    },
+    time(datetime) {
+      let postDatetime = datetime;
+      // 2022-07-09T21:02:34.000Z
+      let data = postDatetime.split("T")[0];
+      let hora = postDatetime.split("T")[1];
 
-    //   let horaFormatada = hora.split(".")[0];
+      let horaFormatada = hora.split(".")[0];
 
-    //   let horaCerta = horaFormatada.split(":")[0] - 3;
-    //   let minutes = horaFormatada.split(":")[1];
-    //   let seconds = horaFormatada.split(":")[2];
+      let horaCerta = horaFormatada.split(":")[0];
+      let minutes = horaFormatada.split(":")[1];
+      let seconds = horaFormatada.split(":")[2];
 
-    //   let year = data.split("-")[0];
-    //   let month = data.split("-")[1];
-    //   let day = data.split("-")[2];
+      let year = data.split("-")[0];
+      let month = data.split("-")[1];
+      let day = data.split("-")[2];
 
-    //   let dataFormatada = `${year}${month}${day} ${horaCerta}:${minutes}:${seconds}`;
-      
-    //   return moment(dataFormatada, "YYYYMMDD hh:mm:ss").fromNow()
-    // },
+      let dataFormatada = `${year}-${month}-${day} ${horaCerta}:${minutes}:${seconds}`;
+      let dataCerta = moment(dataFormatada).subtract(3, "hours");
+
+      return moment(dataCerta, "YYYY-MM-DD hh:mm:ss").fromNow();
+    },
+  },
+  components: {
+    PostModal,
   },
 };
 </script>
 
 <style scoped>
+.box {
+  cursor: pointer;
+}
 </style>

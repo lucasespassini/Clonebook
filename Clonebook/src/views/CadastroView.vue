@@ -11,10 +11,10 @@
             :class="alertUserName"
             type="text"
             placeholder="Digite seu nome de usuário"
-            v-model="userName"
+            v-model="user_name"
           />
         </div>
-        <p class="help is-danger">{{ errorMsg.userNameError }}</p>
+        <p class="help is-danger">{{ errorMsg.user_nameError }}</p>
       </div>
 
       <div class="field">
@@ -61,7 +61,7 @@
       <hr />
       <div class="field is-offset-one-quarter">
         <div class="control">
-          <button @click="register()" class="button is-link">Cadastrar</button>
+          <button @click="register" class="button is-link">Cadastrar</button>
         </div>
       </div>
     </div>
@@ -74,12 +74,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      userName: "",
+      user_name: "",
       name: "",
       email: "",
       password: "",
       errorMsg: {
-        userNameError: undefined,
+        user_nameError: undefined,
         nameError: undefined,
         emailError: undefined,
         passwordError: undefined,
@@ -94,7 +94,7 @@ export default {
     register() {
       axios
         .post("http://localhost:3000/user", {
-          user_name: this.userName,
+          user_name: this.user_name,
           name: this.name,
           email: this.email,
           password: this.password,
@@ -104,33 +104,32 @@ export default {
           this.$router.push({ name: "home" });
         })
         .catch((err) => {
-          console.log(err)
-          // this.errorMsg = err.response.data.error;
+          console.log(err.response.data.errors)
+          this.errorMsg = err.response.data.errors;
 
-          // if (this.errorMsg.userNameError != undefined) {
-          //   this.alertUserName = "is-danger";
-          // } else {
-          //   this.alertUserName = "is-success";
-          // }
+          if (this.errorMsg.user_nameError != undefined) {
+            this.alertUserName = "is-danger";
+          } else {
+            this.alertUserName = "is-success";
+          }
 
-          // if (this.errorMsg.nameError != undefined) {
-          //   this.alertName = "is-danger";
-          // } else {
-          //   this.alertName = "is-success";
-          // }
+          if (this.errorMsg.nameError != undefined) {
+            this.alertName = "is-danger";
+          } else {
+            this.alertName = "is-success";
+          }
 
-          // if (this.errorMsg.emailError != undefined) {
-          //   this.alertEmail = "is-danger";
-          // } else {
-          //   this.alertEmail = "is-success";
-          // }
+          if (this.errorMsg.emailError != undefined) {
+            this.alertEmail = "is-danger";
+          } else {
+            this.alertEmail = "is-success";
+          }
 
-          // if (this.errorMsg.passwordError != undefined) {
-          //   this.alertPassword = "is-danger";
-          // } else {
-          //   this.alertPassword = "is-success";
-          // }
-          // return;
+          if (this.errorMsg.passwordError != undefined) {
+            this.alertPassword = "is-danger";
+          } else {
+            this.alertPassword = "is-success";
+          }
         });
     },
   },

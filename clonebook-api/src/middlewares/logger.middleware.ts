@@ -10,8 +10,7 @@ export class LoggerMiddleware implements NestMiddleware {
     if (authToken != undefined) {
       const token = authToken.split(' ')[1];
       const decoded = verify(token, this.secret);
-      if (decoded) {
-        res.header(decoded);
+      if (decoded != undefined) {
         next();
       } else {
         res.status(403).send('Você não está logado!');

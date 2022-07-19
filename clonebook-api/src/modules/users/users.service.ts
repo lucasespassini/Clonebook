@@ -11,6 +11,7 @@ import { User } from './entities/user.entity';
 
 import { hash, compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import { validate } from 'isemail';
 
 @Injectable()
 export class UsersService {
@@ -37,33 +38,59 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const newHash = await hash(createUserDto.password, 10);
-    createUserDto.password = newHash;
     const newUser = this.userRepository.create(createUserDto);
     const emailExists = await this.findByEmail(newUser.email);
     const userNameExists = await this.findByUserName(newUser.user_name);
 
     interface Errors {
       user_nameError: string | undefined;
+      nameError: string | undefined;
       emailError: string | undefined;
+      passwordError: string | undefined;
     }
 
     const errors: Errors = {
       user_nameError: undefined,
+      nameError: undefined,
       emailError: undefined,
+      passwordError: undefined,
     };
 
     if (userNameExists != undefined) {
       errors.user_nameError = 'Esse nome de usuário já está em uso!';
     }
 
+    if (newUser.user_name.length < 3) {
+      errors.user_nameError = 'O nome deve ter no mínimo 3 caracteres!';
+    }
+
+    if (newUser.name.length < 3) {
+      errors.nameError = 'O nome deve ter no mínimo 3 caracteres!';
+    }
+
     if (emailExists != undefined) {
       errors.emailError = 'Esse e-mail já está cadastrado!';
     }
 
-    if (errors.user_nameError != undefined || errors.emailError != undefined) {
-      throw new NotAcceptableException({ errors: errors });
+    if (!validate(newUser.email)) {
+      errors.emailError = 'O e-mail é inválido!';
     }
+
+    if (newUser.password.length < 5) {
+      errors.passwordError = 'A senha deve ter no mínimo 5 caracteres!';
+    }
+
+    if (
+      errors.user_nameError != undefined ||
+      errors.nameError != undefined ||
+      errors.emailError != undefined ||
+      errors.passwordError != undefined
+    ) {
+      throw new NotAcceptableException({ errors });
+    }
+
+    const newHash = await hash(createUserDto.password, 10);
+    newUser.password = newHash;
 
     const user = await this.userRepository.save(newUser);
 
@@ -75,7 +102,7 @@ export class UsersService {
         email: user.email,
         password: user.password,
       },
-      'teste',
+      this.secret,
     );
     return { token };
   }
@@ -88,8 +115,6 @@ export class UsersService {
         name: true,
         email: true,
         password: false,
-        posts: true,
-        comments: true,
       },
       relations: ['posts', 'comments'],
     });

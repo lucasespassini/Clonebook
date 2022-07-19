@@ -65,11 +65,6 @@ export default {
           password: this.password,
         }) 
         .then((res) => {
-          console.log(res)
-          // localStorage.setItem("id", res.data.authUser.id);
-          // localStorage.setItem("name", res.data.authUser.name);
-          // localStorage.setItem("username", res.data.authUser.userName);
-          // localStorage.setItem("email", res.data.authUser.email);
           localStorage.setItem("token", res.data.token);
           this.$router.push({ name: "home" });
         })

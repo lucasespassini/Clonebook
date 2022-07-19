@@ -32,11 +32,14 @@
       </article>
 
       <hr />
-      <div v-for="userPost in usersPosts" :key="userPost.id">
+      <div v-for="post in posts" :key="post.id">
         <PostContainer
-          :userName="userPost.user_name"
-          :name="userPost.name"
-          :posts="userPost.posts"
+          :postId="post.id"
+          :content="post.content"
+          :likes="post.likes"
+          :createdAt="post.createdAt"
+          :comments="post.comments"
+          :user="post.user"
         />
       </div>
     </div>
@@ -64,9 +67,9 @@ export default {
     };
 
     axios
-      .get("http://localhost:3000/user", req)
-      .then((usersPosts) => {
-        this.usersPosts = usersPosts.data;
+      .get("http://localhost:3000/post", req)
+      .then((posts) => {
+        this.posts = posts.data;
       })
       .catch((error) => {
         console.log(error);
@@ -74,7 +77,7 @@ export default {
   },
   data() {
     return {
-      usersPosts: [],
+      posts: [],
       content: "",
       user: {},
     };
@@ -91,13 +94,13 @@ export default {
         .post("http://localhost:3000/post", {
           content: this.content,
           userId: this.user.id,
-        })
+        }, req)
         .then(() => {
-          this.body = "";
+          this.content = "";
           axios
-            .get("http://localhost:3000", req)
-            .then((usersPosts) => {
-              this.usersPosts = usersPosts.data;
+            .get("http://localhost:3000/post", req)
+            .then((posts) => {
+              this.posts = posts.data;
             })
             .catch((error) => {
               console.log(error);

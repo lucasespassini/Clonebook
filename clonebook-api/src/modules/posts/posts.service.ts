@@ -25,7 +25,8 @@ export class PostsService {
 
   async findAll() {
     const posts = await this.postRepository.find({
-      relations: ['comments'],
+      order: { id: 'DESC', createdAt: 'DESC' },
+      relations: ['comments', 'user'],
     });
 
     return posts;

@@ -14,6 +14,9 @@ import { User } from './modules/users/entities/user.entity';
 import { Post } from './modules/posts/entities/post.entity';
 import { Comment } from './modules/comments/entities/comment.entity';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { UsersController } from './modules/users/users.controller';
+import { PostsController } from './modules/posts/posts.controller';
+import { CommentsController } from './modules/comments/comments.controller';
 
 @Module({
   imports: [
@@ -30,7 +33,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
       entities: [User, Post, Comment],
       synchronize: true,
     }),
-    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -49,6 +51,11 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         },
       )
-      .forRoutes('user');
+      .forRoutes(
+        AppController,
+        UsersController,
+        PostsController,
+        CommentsController,
+      );
   }
 }
