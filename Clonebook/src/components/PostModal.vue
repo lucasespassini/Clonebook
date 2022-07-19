@@ -3,82 +3,56 @@
     <article class="media">
       <figure class="media-left">
         <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png" />
+          <img
+            class="is-rounded"
+            src="https://bulma.io/images/placeholders/128x128.png"
+          />
         </p>
       </figure>
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>Barbara Middleton</strong>
+            <strong>{{ user.name }}</strong>
             <br />
-            {{ modalContent }}
+            {{ content }}
             <br />
-            <small><a>Like</a> · <a>Reply</a> · 3 hrs</small>
+            <small><a>Like</a> · <a>Reply</a> · {{ time(createdAt) }}</small>
           </p>
         </div>
 
-        <article class="media">
-          <figure class="media-left">
-            <p class="image is-48x48">
-              <img src="https://bulma.io/images/placeholders/96x96.png" />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>Sean Brown</strong>
-                <br />
-                Donec sollicitudin urna eget eros malesuada sagittis.
-                Pellentesque habitant morbi tristique senectus et netus et
-                malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla
-                sagittis, a lobortis leo feugiat.
-                <br />
-                <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
+        <div v-for="comment in comments" :key="comment.id">
+          <article class="media">
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <img
+                  class="is-rounded"
+                  src="https://bulma.io/images/placeholders/96x96.png"
+                />
               </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>Sean Brown</strong>
+                  <br />
+                  <!-- Texto do comentário -->
+                  <br />
+                  <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
+                </p>
+              </div>
             </div>
-
-            <article class="media">
-              Vivamus quis semper metus, non tincidunt dolor. Vivamus in mi eu
-              lorem cursus ullamcorper sit amet nec massa.
-            </article>
-
-            <article class="media">
-              Morbi vitae diam et purus tincidunt porttitor vel vitae augue.
-              Praesent malesuada metus sed pharetra euismod. Cras tellus odio,
-              tincidunt iaculis diam non, porta aliquet tortor.
-            </article>
-          </div>
-        </article>
-
-        <article class="media">
-          <figure class="media-left">
-            <p class="image is-48x48">
-              <img src="https://bulma.io/images/placeholders/96x96.png" />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>Kayli Eunice </strong>
-                <br />
-                Sed convallis scelerisque mauris, non pulvinar nunc mattis vel.
-                Maecenas varius felis sit amet magna vestibulum euismod
-                malesuada cursus libero. Vestibulum ante ipsum primis in
-                faucibus orci luctus et ultrices posuere cubilia Curae;
-                Phasellus lacinia non nisl id feugiat.
-                <br />
-                <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
-              </p>
-            </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </article>
 
     <article class="media">
       <figure class="media-left">
         <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png" />
+          <img
+            class="is-rounded"
+            src="https://bulma.io/images/placeholders/128x128.png"
+          />
         </p>
       </figure>
       <div class="media-content">
@@ -86,13 +60,13 @@
           <p class="control">
             <textarea
               class="textarea"
-              placeholder="Add a comment..."
+              placeholder="Escrever comentário..."
             ></textarea>
           </p>
         </div>
         <div class="field">
           <p class="control">
-            <button class="button">Post comment</button>
+            <button class="button">Postar comentário</button>
           </p>
         </div>
       </div>
@@ -101,17 +75,46 @@
 </template>
 
 <script>
-
+import moment from "moment";
 
 export default {
   name: "PostModal",
   props: {
-    modalVisible: Boolean,
-    modalContent: String,
+    user: Object,
+    content: String,
+    createdAt: String,
   },
-  
+  methods: {
+    time(datetime) {
+      let postDatetime = datetime;
+      // 2022-07-09T21:02:34.000Z
+      let data = postDatetime.split("T")[0];
+      let hora = postDatetime.split("T")[1];
+
+      let horaFormatada = hora.split(".")[0];
+
+      let horaCerta = horaFormatada.split(":")[0];
+      let minutes = horaFormatada.split(":")[1];
+      let seconds = horaFormatada.split(":")[2];
+
+      let year = data.split("-")[0];
+      let month = data.split("-")[1];
+      let day = data.split("-")[2];
+
+      let dataFormatada = `${year}-${month}-${day} ${horaCerta}:${minutes}:${seconds}`;
+      let dataCerta = moment(dataFormatada).subtract(3, "hours");
+
+      return dataCerta;
+    },
+  },
 };
 </script>
 
 <style>
+textarea {
+  resize: none;
+}
+textarea::placeholder {
+  color: #666;
+}
 </style>

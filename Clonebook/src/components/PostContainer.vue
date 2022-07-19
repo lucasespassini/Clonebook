@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box mb-4" @click="openModal(postId)">
+    <div class="box mb-4" @click="toggleModal()">
       <article class="media">
         <div class="media-left">
           <figure class="image is-64x64">
@@ -43,15 +43,17 @@
       </article>
     </div>
     <!-- Modal -->
-    <div class="modal">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{ modal: true, 'is-active': showModal }">
+      <div class="modal-background" @click="toggleModal()"></div>
       <div class="modal-content">
         <!-- Any other Bulma elements you want -->
-        <PostModal 
-          :modalContent="modalContent"
+        <PostModal
+          :user="user"
+          :content="content"
+          :createdAt="createdAt"
         />
       </div>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button class="modal-close is-large" aria-label="close" @click="toggleModal()"></button>
     </div>
     
   </div>
@@ -64,12 +66,7 @@ import moment from "moment";
 export default {
   data() {
     return {
-      modalVisible: false,
-      modalContent: "",
-      modalLikes: "",
-      modalCreatedAt: "",
-      modalComments: "",
-      modalUser: "",
+      showModal: false
     };
   },
   name: "PostContainer",
@@ -82,8 +79,8 @@ export default {
     user: Object,
   },
   methods: {
-    openModal(postId) {
-      console.log(postId);
+    toggleModal() {
+      this.showModal == false ? this.showModal = true : this.showModal = false 
     },
     time(datetime) {
       let postDatetime = datetime;

@@ -91,10 +91,14 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/post", {
-          content: this.content,
-          userId: this.user.id,
-        }, req)
+        .post(
+          "http://localhost:3000/post",
+          {
+            content: this.content,
+            userId: this.user.id,
+          },
+          req
+        )
         .then(() => {
           this.content = "";
           axios
@@ -118,6 +122,9 @@ export default {
 </script>
 
 <style scoped>
+html {
+  overflow: auto;
+}
 .textarea {
   resize: none;
 }
