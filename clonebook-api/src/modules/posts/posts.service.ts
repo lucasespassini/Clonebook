@@ -62,4 +62,10 @@ export class PostsService {
     await this.postRepository.delete(post);
     return { msg: 'Post deletado com sucesso!' };
   }
+
+  async updateLike(id: number) {
+    const post = await this.findOne(id);
+
+    // this.postRepository.increment(post.likes, );
+  }
 }

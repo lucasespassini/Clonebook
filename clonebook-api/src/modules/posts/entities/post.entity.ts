@@ -16,15 +16,10 @@ export class Post {
   @Column()
   content: string;
 
-  @Column({
-    default: 0,
-  })
+  @Column({ default: 0 })
   likes: number;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: string;
 
   @ManyToOne(() => User, (user) => user.posts, {

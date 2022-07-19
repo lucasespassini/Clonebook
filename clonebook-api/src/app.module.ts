@@ -17,6 +17,8 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { UsersController } from './modules/users/users.controller';
 import { PostsController } from './modules/posts/posts.controller';
 import { CommentsController } from './modules/comments/comments.controller';
+import { FriendsModule } from './modules/friends/friends.module';
+import { Friend } from './modules/friends/entities/friend.entity';
 
 @Module({
   imports: [
@@ -25,14 +27,15 @@ import { CommentsController } from './modules/comments/comments.controller';
     CommentsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '192.168.13.250',
       port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'clonebookv2',
-      entities: [User, Post, Comment],
+      username: 'lucas.mendes',
+      password: 'Nq9N868y2rMReZGv73gu',
+      database: 'treinamento',
+      entities: [User, Post, Comment, Friend],
       synchronize: true,
     }),
+    FriendsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

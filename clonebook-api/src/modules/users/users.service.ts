@@ -115,8 +115,11 @@ export class UsersService {
         name: true,
         email: true,
         password: false,
+        friends: true,
+        comments: true,
+        posts: true,
       },
-      relations: ['posts', 'comments'],
+      relations: ['posts', 'comments', 'friends'],
     });
     return users;
   }
@@ -132,7 +135,7 @@ export class UsersService {
         password: false,
         posts: true,
       },
-      relations: ['posts'],
+      relations: ['posts', 'friends'],
     });
 
     if (!user) {
