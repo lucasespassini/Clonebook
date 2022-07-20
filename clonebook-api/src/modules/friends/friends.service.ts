@@ -16,11 +16,19 @@ export class FriendsService {
   ) {}
 
   create(createFriendDto: CreateFriendDto) {
-    return 'This action adds a new friend';
+    const user = new User();
+    const friend = new Friend();
+
+    user.id = +createFriendDto.userId;
+    friend.seguidorId = +createFriendDto.seguidorId;
+    friend.user = user;
+    return this.friendRepository.save(friend);
   }
 
   async findAll() {
-    const friends = await this.friendRepository.find();
+    const friends = await this.friendRepository.find({
+      relations: ['user'],
+    });
 
     return friends;
   }
@@ -28,6 +36,7 @@ export class FriendsService {
   async findSeguidor(idSeguidor: number) {
     const seguidores = await this.userRepository.find({
       where: { id: idSeguidor },
+      relations: ['friends'],
     });
 
     return seguidores;
@@ -44,7 +53,8 @@ export class FriendsService {
     }
 
     // return friend;
-    return this.findSeguidor(friend.seguidorId);
+    console.log(friend.user.id);
+    return this.findSeguidor(friend.user.id);
   }
 
   update(id: number, updateFriendDto: UpdateFriendDto) {
