@@ -25,17 +25,17 @@ import { Friend } from './modules/friends/entities/friend.entity';
     UsersModule,
     PostsModule,
     CommentsModule,
+    FriendsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.13.250',
+      host: 'localhost', //192.168.13.250
       port: 3306,
-      username: 'lucas.mendes',
-      password: 'Nq9N868y2rMReZGv73gu',
-      database: 'treinamento',
+      username: 'root', //lucas.mendes
+      password: '123456', // Nq9N868y2rMReZGv73gu
+      database: 'clonebookv2',
       entities: [User, Post, Comment, Friend],
       synchronize: true,
     }),
-    FriendsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

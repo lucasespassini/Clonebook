@@ -15,7 +15,7 @@
           <div class="content">
             <div>
               <strong>{{ user.name }}</strong>
-              <small>@{{ user.user_name }}</small>
+              <small> @{{ user.user_name }}</small>
               <small> - {{ time(createdAt) }}</small>
               <p style="margin-top: 8px">{{ content }}</p>
             </div>
@@ -49,6 +49,7 @@
         <!-- Any other Bulma elements you want -->
         <PostModal
           :user="user"
+          :postId="postId"
           :content="content"
           :createdAt="createdAt"
         />

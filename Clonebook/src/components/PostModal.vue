@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="box box-modal">
     <article class="media">
       <figure class="media-left">
         <p class="image is-64x64">
@@ -11,13 +11,26 @@
       </figure>
       <div class="media-content">
         <div class="content">
-          <p>
-            <strong>{{ user.name }}</strong>
-            <br />
+          <strong>{{ user.name }}</strong> <br />
+          <small>{{ time(createdAt) }}</small>
+          <div class="content">
             {{ content }}
-            <br />
-            <small><a>Like</a> · <a>Reply</a> · {{ time(createdAt) }}</small>
-          </p>
+          </div>
+          <div class="infos-post">
+            <a class="level-item" aria-label="like">
+              <span class="icon is-small">
+                <font-awesome-icon icon="fa-solid fa-heart" />
+              </span>
+            </a>
+            <label style="font-size: 12px" class="mr-3">0</label>
+
+            <a class="level-item" aria-label="comment">
+              <span class="icon is-small">
+                <font-awesome-icon icon="fa-solid fa-comment" />
+              </span>
+            </a>
+            <label style="font-size: 12px">0</label>
+          </div>
         </div>
 
         <div v-for="comment in comments" :key="comment.id">
@@ -37,7 +50,10 @@
                   <br />
                   <!-- Texto do comentário -->
                   <br />
-                  <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
+                  <span class="icon is-small">
+                    <font-awesome-icon icon="fa-solid fa-comment" />
+                  </span>
+                  · <a>Reply</a> · 2 hrs
                 </p>
               </div>
             </div>
@@ -61,12 +77,15 @@
             <textarea
               class="textarea"
               placeholder="Escrever comentário..."
+              v-model="commentContent"
             ></textarea>
           </p>
         </div>
         <div class="field">
           <p class="control">
-            <button class="button">Postar comentário</button>
+            <button @click="comentar" class="button is-link">
+              Postar comentário
+            </button>
           </p>
         </div>
       </div>
@@ -75,16 +94,49 @@
 </template>
 
 <script>
-import moment from "moment";
+// import moment from "moment";
+import axios from "axios";
 
 export default {
+  data() {
+    return {
+      commentContent: "",
+      comments: [],
+    };
+  },
   name: "PostModal",
   props: {
     user: Object,
+    postId: Number,
     content: String,
     createdAt: String,
   },
   methods: {
+    comentar() {
+      let req = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
+      axios
+        .post(
+          "http://localhost:3000/comment",
+          {
+            content: this.commentContent,
+            userId: localStorage.getItem("id"),
+            postId: this.postId,
+          },
+          req
+        )
+        .then(() => {
+          this.commentContent = ""
+          axios
+            .get("http://localhost:3000/post", req)
+            .then((res) => (this.comments = res.data));
+        })
+        .catch((err) => console.log(err));
+    },
     time(datetime) {
       let postDatetime = datetime;
       // 2022-07-09T21:02:34.000Z
@@ -102,19 +154,38 @@ export default {
       let day = data.split("-")[2];
 
       let dataFormatada = `${year}-${month}-${day} ${horaCerta}:${minutes}:${seconds}`;
-      let dataCerta = moment(dataFormatada).subtract(3, "hours");
+      // let dataCerta = moment(dataFormatada).subtract(3, "hours");
 
-      return dataCerta;
+      return dataFormatada;
     },
   },
 };
 </script>
 
 <style>
-textarea {
-  resize: none;
+.background {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: #ffffff;
 }
-textarea::placeholder {
-  color: #666;
+
+.content {
+  margin: 0.5rem;
+}
+
+.infos-post {
+  display: flex;
+  justify-content: center;
+}
+
+.infos-post a {
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .box-modal {
+    margin: 0 1rem;
+  }
 }
 </style>
