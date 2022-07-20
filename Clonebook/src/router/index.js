@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import CadastroView from '../views/CadastroView.vue'
+import PerfilView from '../views/PerfilView.vue'
 import axios from 'axios'
 
 function CheckLogin(to, from, next) {
@@ -34,6 +35,12 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    beforeEnter: CheckLogin
+  },
+  {
+    path: '/perfil',
+    name: 'perfil',
+    component: PerfilView,
     beforeEnter: CheckLogin
   },
   {

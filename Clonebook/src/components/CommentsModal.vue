@@ -49,9 +49,10 @@
                   <strong>Sean Brown</strong>
                   <br />
                   <!-- Texto do comentário -->
+                  {{ comment.content }}
                   <br />
                   <span class="icon is-small">
-                    <font-awesome-icon icon="fa-solid fa-comment" />
+                    <font-awesome-icon icon="fa-solid fa-heart" />
                   </span>
                   · <a>Reply</a> · 2 hrs
                 </p>
@@ -98,6 +99,20 @@
 import axios from "axios";
 
 export default {
+  created() {
+    let req = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
+    axios
+      .get("http://localhost:3000/post/" + this.postId, req)
+      .then((res) => {
+        this.comments = res.data.comments;
+      })
+      .catch((err) => console.log(err));
+  },
   data() {
     return {
       commentContent: "",
@@ -130,10 +145,13 @@ export default {
           req
         )
         .then(() => {
-          this.commentContent = ""
+          this.commentContent = "";
           axios
-            .get("http://localhost:3000/post", req)
-            .then((res) => (this.comments = res.data));
+            .get("http://localhost:3000/post/" + this.postId, req)
+            .then((res) => {
+              this.comments = res.data.comments;
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => console.log(err));
     },
