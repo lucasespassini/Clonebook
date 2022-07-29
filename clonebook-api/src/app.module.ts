@@ -19,6 +19,7 @@ import { PostsController } from './modules/posts/posts.controller';
 import { CommentsController } from './modules/comments/comments.controller';
 import { FriendsModule } from './modules/friends/friends.module';
 import { Friend } from './modules/friends/entities/friend.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -26,13 +27,14 @@ import { Friend } from './modules/friends/entities/friend.entity';
     PostsModule,
     CommentsModule,
     FriendsModule,
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST || '192.168.13.250',
-      port: +process.env.DB_PORT || 3306,
-      username: process.env.DB_USERNAME || 'lucas.mendes',
-      password: process.env.DB_PASSWORD || 'Nq9N868y2rMReZGv73gu',
-      database: process.env.DB_NAME || 'treinamento',
+      host: '192.168.13.250',
+      port: 3306,
+      username: 'lucas.mendes',
+      password: 'Nq9N868y2rMReZGv73gu',
+      database: 'treinamento',
       entities: [User, Post, Comment, Friend],
       synchronize: true,
     }),

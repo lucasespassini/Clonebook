@@ -178,6 +178,7 @@ export class UsersService {
       process.env.JWT_SECRET,
       { expiresIn: '2d' },
     );
+
     return { token };
   }
 }
