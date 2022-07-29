@@ -28,11 +28,11 @@ import { Friend } from './modules/friends/entities/friend.entity';
     FriendsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '192.168.13.250', //192.168.13.250
-      port: 3306,
-      username: 'lucas.mendes', //lucas.mendes
-      password: 'Nq9N868y2rMReZGv73gu', // Nq9N868y2rMReZGv73gu
-      database: 'treinamento',
+      host: process.env.DB_HOST || '192.168.13.250',
+      port: +process.env.DB_PORT || 3306,
+      username: process.env.DB_USERNAME || 'lucas.mendes',
+      password: process.env.DB_PASSWORD || 'Nq9N868y2rMReZGv73gu',
+      database: process.env.DB_NAME || 'treinamento',
       entities: [User, Post, Comment, Friend],
       synchronize: true,
     }),

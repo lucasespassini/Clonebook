@@ -15,7 +15,6 @@ import { validate } from 'isemail';
 
 @Injectable()
 export class UsersService {
-  private secret = '9uj21=09rj210´rj';
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -102,7 +101,7 @@ export class UsersService {
         email: user.email,
         password: user.password,
       },
-      this.secret,
+      process.env.JWT_SECRET,
     );
     return { token };
   }
@@ -176,7 +175,7 @@ export class UsersService {
         email: user.email,
         password: user.password,
       },
-      this.secret,
+      process.env.JWT_SECRET,
       { expiresIn: '2d' },
     );
     return { token };
