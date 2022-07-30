@@ -14,7 +14,7 @@
     <div id="navbarExampleTransparentExample" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" href="/"> Home </a>
-      
+        <a class="navbar-item" href="/perfil"> Perfil </a>
       </div>
 
       <div class="navbar-end">

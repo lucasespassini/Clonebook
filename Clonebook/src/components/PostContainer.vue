@@ -47,7 +47,7 @@
       <div class="modal-background" @click="toggleModal()"></div>
       <div class="modal-content">
         <!-- Any other Bulma elements you want -->
-        <PostModal
+        <CommentsModal
           :user="user"
           :postId="postId"
           :content="content"
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import PostModal from "@/components/PostModal.vue";
+import CommentsModal from "@/components/CommentsModal.vue";
 import moment from "moment";
 
 export default {
@@ -106,7 +106,7 @@ export default {
     },
   },
   components: {
-    PostModal,
+    CommentsModal,
   },
 };
 </script>
