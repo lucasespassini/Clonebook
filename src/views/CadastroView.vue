@@ -93,7 +93,7 @@ export default {
   methods: {
     register() {
       axios
-        .post("http://localhost:3000/user", {
+        .post("https://clonebookapi.herokuapp.com/user", {
           user_name: this.user_name,
           name: this.name,
           email: this.email,

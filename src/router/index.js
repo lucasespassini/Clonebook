@@ -13,7 +13,7 @@ function CheckLogin(to, from, next) {
       }
     }
 
-    axios.post('http://localhost:3000/validate',{}, req)
+    axios.post('https://clonebookapi.herokuapp.com/validate',{}, req)
       .then(async (res) => {
         localStorage.setItem('id', res.data.id)
         localStorage.setItem('user_name', res.data.user_name)

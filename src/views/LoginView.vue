@@ -60,7 +60,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("http://localhost:3000/user/login", {
+        .post("https://clonebookapi.herokuapp.com/user/login", {
           email: this.email,
           password: this.password,
         }) 

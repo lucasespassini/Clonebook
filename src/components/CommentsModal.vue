@@ -107,7 +107,7 @@ export default {
     };
 
     axios
-      .get("http://localhost:3000/post/" + this.postId, req)
+      .get("https://clonebookapi.herokuapp.com/post/" + this.postId, req)
       .then((res) => {
         this.comments = res.data.comments;
       })
@@ -136,7 +136,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:3000/comment",
+          "https://clonebookapi.herokuapp.com/comment",
           {
             content: this.commentContent,
             userId: localStorage.getItem("id"),
@@ -147,7 +147,7 @@ export default {
         .then(() => {
           this.commentContent = "";
           axios
-            .get("http://localhost:3000/post/" + this.postId, req)
+            .get("https://clonebookapi.herokuapp.com/post/" + this.postId, req)
             .then((res) => {
               this.comments = res.data.comments;
             })

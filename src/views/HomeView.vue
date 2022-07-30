@@ -67,7 +67,7 @@ export default {
     };
 
     axios
-      .get("http://localhost:3000/post", req)
+      .get("https://clonebookapi.herokuapp.com/post", req)
       .then((posts) => {
         this.posts = posts.data;
       })
@@ -92,7 +92,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:3000/post",
+          "https://clonebookapi.herokuapp.com/post",
           {
             content: this.content,
             userId: this.user.id,
@@ -102,7 +102,7 @@ export default {
         .then(() => {
           this.content = "";
           axios
-            .get("http://localhost:3000/post", req)
+            .get("https://clonebookapi.herokuapp.com/post", req)
             .then((posts) => {
               this.posts = posts.data;
             })
