@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <NavBar />
     <div class="container column is-two-fifths">
       <article class="media mt-4">
@@ -125,8 +125,13 @@ export default {
 html {
   overflow: auto;
 }
+.media-content {
+  padding: 2px;
+}
 .textarea {
   resize: none;
+  background-color: #fafaf9;
+  box-shadow: 0px 0px 10px -5px #00000081;
 }
 .textarea::placeholder {
   color: #666;

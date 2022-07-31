@@ -1,4 +1,5 @@
 <template>
+  <NavBar />
   <div class="container column is-two-fifths">
     <div id="background-photo">
       <img src="https://bulma.io/images/placeholders/128x128.png" />
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import PostContainer from "@/components/PostContainer.vue";
 import axios from "axios";
 
@@ -82,6 +84,7 @@ export default {
   },
   components: {
     PostContainer,
+    NavBar,
   },
 };
 </script>
