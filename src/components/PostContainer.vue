@@ -24,14 +24,14 @@
             <div
               class="level-left is-justify-content-end is-align-items-center"
             >
-              <a class="level-item" aria-label="like">
+              <a class="level-item color" aria-label="like">
                 <span class="icon is-small">
                   <font-awesome-icon icon="fa-solid fa-heart" />
                 </span>
               </a>
               <label style="font-size: 12px" class="mr-3">{{ likes }}</label>
 
-              <a class="level-item" aria-label="comment">
+              <a class="level-item color" aria-label="comment">
                 <span class="icon is-small">
                   <font-awesome-icon icon="fa-solid fa-comment" />
                 </span>
@@ -114,5 +114,6 @@ export default {
 <style scoped>
 .box {
   cursor: pointer;
+  background-color: #fafaf9;
 }
 </style>

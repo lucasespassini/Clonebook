@@ -3,15 +3,21 @@
 </template>
 
 <style>
-html,body {
-  height: 100%;
+body {
+  background-color: #f5f5f5;
 }
 #app {
-  height: 100%;
+  height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #171717;
+}
+#app .is-link {
+  background-color: #1e3a8a;
+}
+#app .color {
+  color: #1e3a8a;
 }
 </style>
