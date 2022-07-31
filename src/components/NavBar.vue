@@ -13,8 +13,10 @@
 
     <div id="navbarExampleTransparentExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" href="/"> Home </a>
-        <a class="navbar-item" href="/perfil"> Perfil </a>
+        <router-link to="/"><a class="navbar-item"> Home </a></router-link>
+        <router-link to="/perfil"
+          ><a class="navbar-item"> Perfil </a></router-link
+        >
       </div>
 
       <div class="navbar-end">
@@ -25,9 +27,6 @@
                 class="button is-link is-rounded"
                 data-social-network="Twitter"
                 data-social-action="tweet"
-                data-social-target="https://bulma.io"
-                target="_blank"
-                
               >
                 <span class="icon">
                   <i class="fab fa-twitter"></i>
@@ -36,16 +35,14 @@
               </a>
             </p>
             <p class="control">
-              <a
-                class="button is-primary"
-                href="/login"
-                @click="logout"
-              >
-                <span class="icon">
-                  <i class="fas fa-download"></i>
-                </span>
-                <span>Sair</span>
-              </a>
+              <router-link to="/login">
+                <a class="button is-primary" @click="logout">
+                  <span class="icon">
+                    <i class="fas fa-download"></i>
+                  </span>
+                  <span>Sair</span>
+                </a>
+              </router-link>
             </p>
           </div>
         </div>
@@ -59,13 +56,13 @@ export default {
   name: "NavBar",
   methods: {
     logout() {
-      localStorage.setItem("token", '')
-      localStorage.setItem("id", '')
-      localStorage.setItem("user_name", '')
-      localStorage.setItem("name", '')
-      localStorage.setItem("email", '')
-    }
-  }
+      localStorage.setItem("token", "");
+      localStorage.setItem("id", "");
+      localStorage.setItem("user_name", "");
+      localStorage.setItem("name", "");
+      localStorage.setItem("email", "");
+    },
+  },
 };
 </script>
 
