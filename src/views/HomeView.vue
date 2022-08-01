@@ -90,7 +90,7 @@ export default {
 
       if (scrollPosition == 0) {
         bottomMenu.style.bottom = "0px";
-      } else if (this.lastPositionScroll <= scrollPosition) {
+      } else if (this.lastScrollPosition <= scrollPosition) {
         bottomMenu.style.bottom = "-65px";
       } else {
         bottomMenu.style.bottom = "0px";
