@@ -64,6 +64,11 @@
           <button @click="register" class="button is-link">Cadastrar</button>
         </div>
       </div>
+      <div>
+        <router-link to="/login">
+          <a class="color">Já tem uma conta?</a>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

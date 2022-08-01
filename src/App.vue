@@ -1,8 +1,10 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 <style>
 body {
+  min-height: 700px !important;
+  overflow: hidden !important;
   background-color: #f5f5f5;
 }
 #app {

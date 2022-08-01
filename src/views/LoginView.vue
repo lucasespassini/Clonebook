@@ -37,6 +37,11 @@
           <button @click="login" class="button is-link">Entrar</button>
         </div>
       </div>
+      <div>
+        <router-link to="/cadastro">
+          <a class="color">Não tem uma conta? Crie uma grátis!</a>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -63,31 +68,31 @@ export default {
         .post("https://clonebookapi.herokuapp.com/user/login", {
           email: this.email,
           password: this.password,
-        }) 
+        })
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           this.$router.push({ name: "home" });
         })
-        .catch(err => console.log(err))
-        // .catch((err) => {
-          
-        //   this.errorMsg = err.response.data.error;
+        .catch((err) => console.log(err));
+      // .catch((err) => {
 
-        //   if (this.errorMsg.emailError != undefined) {
-        //     this.alertEmail = "is-danger";
-        //   } else {
-        //     this.alertEmail = "is-success";
-        //   }
+      //   this.errorMsg = err.response.data.error;
 
-        //   if (
-        //     this.errorMsg.passwordError != undefined ||
-        //     this.errorMsg.emailError === "O usuário não existe!"
-        //   ) {
-        //     this.alertPassword = "is-danger";
-        //   } else {
-        //     this.alertPassword = "is-success";
-        //   }
-        // });
+      //   if (this.errorMsg.emailError != undefined) {
+      //     this.alertEmail = "is-danger";
+      //   } else {
+      //     this.alertEmail = "is-success";
+      //   }
+
+      //   if (
+      //     this.errorMsg.passwordError != undefined ||
+      //     this.errorMsg.emailError === "O usuário não existe!"
+      //   ) {
+      //     this.alertPassword = "is-danger";
+      //   } else {
+      //     this.alertPassword = "is-success";
+      //   }
+      // });
     },
   },
 };

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import CadastroView from '../views/CadastroView.vue'
 import PerfilView from '../views/PerfilView.vue'
+import DiscoverView from '../views/DiscoverView.vue'
 import axios from 'axios'
 
 function CheckLogin(to, from, next) {
@@ -16,6 +17,7 @@ function CheckLogin(to, from, next) {
     axios.post('https://clonebookapi.herokuapp.com/validate',{}, req)
       .then(async (res) => {
         localStorage.setItem('id', res.data.id)
+        localStorage.setItem('uuid', res.data.uuid)
         localStorage.setItem('user_name', res.data.user_name)
         localStorage.setItem('name', res.data.name)
         localStorage.setItem('email', res.data.email)
@@ -38,7 +40,13 @@ const routes = [
     beforeEnter: CheckLogin
   },
   {
-    path: '/perfil',
+    path: '/discover',
+    name: 'discover',
+    component: DiscoverView,
+    beforeEnter: CheckLogin
+  },
+  {
+    path: '/perfil/:uuid',
     name: 'perfil',
     component: PerfilView,
     beforeEnter: CheckLogin

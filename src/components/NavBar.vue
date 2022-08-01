@@ -17,7 +17,7 @@
       </span>
     </router-link>
 
-    <router-link to="/">
+    <router-link to="/discover">
       <span class="color">
         <font-awesome-icon
           class="nav-bottom-icon"
@@ -32,7 +32,7 @@
       </span>
     </router-link>
 
-    <router-link to="/perfil">
+    <router-link :to="'/perfil/' + this.user.uuid">
       <span class="color">
         <font-awesome-icon class="nav-bottom-icon" icon="fa-solid fa-user" />
       </span>
@@ -43,9 +43,19 @@
 <script>
 export default {
   name: "NavBar",
+  created() {
+    this.user = {
+      id: localStorage.getItem("id"),
+      uuid: localStorage.getItem("uuid"),
+      user_name: localStorage.getItem("user_name"),
+      name: localStorage.getItem("name"),
+      email: localStorage.getItem("email"),
+    };
+  },
   data() {
     return {
       menuIsOpen: false,
+      user: {},
     };
   },
   methods: {
@@ -135,7 +145,7 @@ export default {
   transition: 0.2s;
 }
 .nav-bottom-icon {
-  width: 100px;
+  width: 80px;
   font-size: 1.5rem;
 }
 </style>

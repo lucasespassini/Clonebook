@@ -1,7 +1,7 @@
 <template>
   <NavBar />
   <div @mousewheel="hideBottomMenu()" class="container column is-two-fifths">
-    <article class="media mt-4">
+    <article class="media mt-4 mb-5">
       <figure class="media-left">
         <p class="image is-64x64">
           <img
@@ -30,7 +30,15 @@
       </div>
     </article>
 
-    <hr />
+    <PostLoader v-if="isLoading == true" />
+
+    <div v-if="postsExists == false">
+      <p class="pt-6">Siga alguém para acompanhar alguns posts 😁</p>
+      <router-link to="/discover">
+        Clique aqui para descobrir alguns amigos
+      </router-link>
+    </div>
+    
     <div v-for="post in posts" :key="post.id">
       <PostContainer
         :postId="post.id"
@@ -47,12 +55,14 @@
 <script>
 import PostContainer from "@/components/PostContainer.vue";
 import NavBar from "@/components/NavBar.vue";
+import PostLoader from "@/components/PostLoader.vue";
 import axios from "axios";
 
 export default {
   created() {
     this.user = {
       id: localStorage.getItem("id"),
+      uuid: localStorage.getItem("uuid"),
       user_name: localStorage.getItem("user_name"),
       name: localStorage.getItem("name"),
       email: localStorage.getItem("email"),
@@ -68,6 +78,10 @@ export default {
       .get("https://clonebookapi.herokuapp.com/post", req)
       .then((posts) => {
         this.posts = posts.data;
+        this.isLoading = false;
+        if (posts.data.length == 0) {
+          this.postsExists = false
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -75,6 +89,8 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
+      postsExists: true,
       posts: [],
       content: "",
       user: {},
@@ -132,14 +148,12 @@ export default {
   components: {
     PostContainer,
     NavBar,
+    PostLoader,
   },
 };
 </script>
 
 <style scoped>
-html {
-  overflow: auto;
-}
 .media-content {
   padding: 2px;
 }

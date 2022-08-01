@@ -14,7 +14,10 @@
           />
         </p>
       </figure>
-      <div>
+      <div v-if="this.params == this.user.uuid">
+        <a class="button is-link">Editar Perfil</a>
+      </div>
+      <div v-else>
         <a class="button is-link">Seguir</a>
       </div>
     </div>
@@ -33,6 +36,8 @@
       <p><strong>90</strong> seguindo</p>
     </div>
 
+    <PostLoader v-if="isLoading == true" />
+
     <div v-for="post in posts" :key="post.id">
       <PostContainer
         :postId="post.id"
@@ -49,12 +54,15 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import PostContainer from "@/components/PostContainer.vue";
+import PostLoader from "@/components/PostLoader.vue";
 import axios from "axios";
 
 export default {
   created() {
+    this.params = this.$route.params.uuid;
     this.user = {
       id: localStorage.getItem("id"),
+      uuid: localStorage.getItem("uuid"),
       user_name: localStorage.getItem("user_name"),
       name: localStorage.getItem("name"),
       email: localStorage.getItem("email"),
@@ -70,6 +78,7 @@ export default {
       .get(`https://clonebookapi.herokuapp.com/post/user/${this.user.id}`, req)
       .then((posts) => {
         this.posts = posts.data;
+        this.isLoading = false;
       })
       .catch((error) => {
         console.log(error);
@@ -80,11 +89,14 @@ export default {
       posts: [],
       content: "",
       user: {},
+      isLoading: true,
+      params: "",
     };
   },
   components: {
     PostContainer,
     NavBar,
+    PostLoader,
   },
 };
 </script>
