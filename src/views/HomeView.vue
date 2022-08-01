@@ -1,47 +1,45 @@
 <template>
-  <div>
-    <NavBar />
-    <div class="container column is-two-fifths">
-      <article class="media mt-4">
-        <figure class="media-left">
-          <p class="image is-64x64">
-            <img
-              class="is-rounded"
-              src="https://bulma.io/images/placeholders/128x128.png"
-            />
+  <NavBar />
+  <div @mousewheel="hideBottomMenu()" class="container column is-two-fifths">
+    <article class="media mt-4">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img
+            class="is-rounded"
+            src="https://bulma.io/images/placeholders/128x128.png"
+          />
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="field">
+          <p class="control">
+            <textarea
+              class="textarea"
+              placeholder="O que está acontecendo?"
+              v-model="content"
+            ></textarea>
           </p>
-        </figure>
-        <div class="media-content">
-          <div class="field">
-            <p class="control">
-              <textarea
-                class="textarea"
-                placeholder="O que está acontecendo?"
-                v-model="content"
-              ></textarea>
-            </p>
-          </div>
-          <nav class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <a @click="postar" class="button is-link">Tweetar</a>
-              </div>
-            </div>
-          </nav>
         </div>
-      </article>
-
-      <hr />
-      <div v-for="post in posts" :key="post.id">
-        <PostContainer
-          :postId="post.id"
-          :content="post.content"
-          :likes="post.likes"
-          :createdAt="post.createdAt"
-          :comments="post.comments"
-          :user="post.user"
-        />
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <a @click="postar" class="button is-link">Tweetar</a>
+            </div>
+          </div>
+        </nav>
       </div>
+    </article>
+
+    <hr />
+    <div v-for="post in posts" :key="post.id">
+      <PostContainer
+        :postId="post.id"
+        :content="post.content"
+        :likes="post.likes"
+        :createdAt="post.createdAt"
+        :comments="post.comments"
+        :user="post.user"
+      />
     </div>
   </div>
 </template>
@@ -80,9 +78,26 @@ export default {
       posts: [],
       content: "",
       user: {},
+      lastScrollPosition: 0,
     };
   },
   methods: {
+    hideBottomMenu() {
+      const html = document.querySelector("html");
+      const bottomMenu = document.querySelector(".nav-bottom");
+
+      let scrollPosition = html.scrollTop;
+
+      if (scrollPosition == 0) {
+        bottomMenu.style.bottom = "0px";
+      } else if (this.lastPositionScroll <= scrollPosition) {
+        bottomMenu.style.bottom = "-65px";
+      } else {
+        bottomMenu.style.bottom = "0px";
+      }
+
+      this.lastScrollPosition = scrollPosition;
+    },
     postar() {
       let req = {
         headers: {
@@ -131,7 +146,7 @@ html {
 .textarea {
   resize: none;
   background-color: #fafaf9;
-  box-shadow: 0px 0px 10px -5px #00000081;
+  box-shadow: 0px 0px 10px -7px #00000070;
 }
 .textarea::placeholder {
   color: #666;

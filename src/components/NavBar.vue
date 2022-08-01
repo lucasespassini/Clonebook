@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav @mousewheel="$emit('teste', hideBottomMenu())" class="nav">
     <router-link to="/">
       <a class="logo color">Clonitter</a>
     </router-link>
@@ -14,6 +14,15 @@
     <router-link to="/">
       <span class="color nav-bottom-icon">
         <font-awesome-icon class="nav-bottom-icon" icon="fa-solid fa-home" />
+      </span>
+    </router-link>
+
+    <router-link to="/">
+      <span class="color">
+        <font-awesome-icon
+          class="nav-bottom-icon"
+          icon="fa-solid fa-magnifying-glass"
+        />
       </span>
     </router-link>
 
@@ -69,7 +78,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 2px 10px -5px #00000070;
+  box-shadow: 0px 2px 10px -7px #00000070;
 }
 .logo {
   padding: 5px 0;
@@ -123,6 +132,7 @@ export default {
   background-color: #f5f5f5;
   box-shadow: 0px -2px 10px -7px #00000070;
   user-select: none;
+  transition: 0.2s;
 }
 .nav-bottom-icon {
   width: 100px;
