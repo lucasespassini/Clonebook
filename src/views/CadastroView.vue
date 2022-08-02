@@ -98,7 +98,7 @@ export default {
   methods: {
     register() {
       axios
-        .post("https://clonebookapi.herokuapp.com/user", {
+        .post(process.env.VUE_APP_ROOT_API + "/user", {
           user_name: this.user_name,
           name: this.name,
           email: this.email,

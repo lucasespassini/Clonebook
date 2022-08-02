@@ -14,7 +14,7 @@ function CheckLogin(to, from, next) {
       }
     }
 
-    axios.post('https://clonebookapi.herokuapp.com/validate',{}, req)
+    axios.post(process.env.VUE_APP_ROOT_API + "/validate", {}, req)
       .then(async (res) => {
         localStorage.setItem('id', res.data.id)
         localStorage.setItem('uuid', res.data.uuid)

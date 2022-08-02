@@ -75,7 +75,7 @@ export default {
     };
 
     axios
-      .get("https://clonebookapi.herokuapp.com/post", req)
+      .get(process.env.VUE_APP_ROOT_API + "/post", req)
       .then((posts) => {
         this.posts = posts.data;
         this.isLoading = false;

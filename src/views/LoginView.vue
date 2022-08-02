@@ -65,7 +65,7 @@ export default {
   methods: {
     login() {
       axios
-        .post("https://clonebookapi.herokuapp.com/user/login", {
+        .post(process.env.VUE_APP_ROOT_API + "/user/login", {
           email: this.email,
           password: this.password,
         })
