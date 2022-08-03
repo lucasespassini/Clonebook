@@ -107,7 +107,7 @@ export default {
     };
 
     axios
-      .get("https://clonebookapi.herokuapp.com/post/" + this.postId, req)
+      .get(process.env.VUE_APP_ROOT_API + "/post/" + this.postId, req)
       .then((res) => {
         this.comments = res.data.comments;
       })
@@ -136,7 +136,7 @@ export default {
 
       axios
         .post(
-          "https://clonebookapi.herokuapp.com/comment",
+          process.env.VUE_APP_ROOT_API + "/comment",
           {
             content: this.commentContent,
             userId: localStorage.getItem("id"),
@@ -147,7 +147,7 @@ export default {
         .then(() => {
           this.commentContent = "";
           axios
-            .get("https://clonebookapi.herokuapp.com/post/" + this.postId, req)
+            .get(process.env.VUE_APP_ROOT_API + "post/" + this.postId, req)
             .then((res) => {
               this.comments = res.data.comments;
             })

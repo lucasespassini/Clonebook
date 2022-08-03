@@ -38,7 +38,7 @@
         Clique aqui para descobrir alguns amigos
       </router-link>
     </div>
-    
+
     <div v-for="post in posts" :key="post.id">
       <PostContainer
         :postId="post.id"
@@ -80,7 +80,7 @@ export default {
         this.posts = posts.data;
         this.isLoading = false;
         if (posts.data.length == 0) {
-          this.postsExists = false
+          this.postsExists = false;
         }
       })
       .catch((error) => {
@@ -123,7 +123,7 @@ export default {
 
       axios
         .post(
-          "https://clonebookapi.herokuapp.com/post",
+          process.env.VUE_APP_ROOT_API + "/post",
           {
             content: this.content,
             userId: this.user.id,
@@ -133,7 +133,7 @@ export default {
         .then(() => {
           this.content = "";
           axios
-            .get("https://clonebookapi.herokuapp.com/post", req)
+            .get(process.env.VUE_APP_ROOT_API + "/post", req)
             .then((posts) => {
               this.posts = posts.data;
             })
