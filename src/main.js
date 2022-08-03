@@ -16,11 +16,13 @@ import {
   faHome,
   faMagnifyingGlass,
   faBell,
-  faUser
+  faUser,
+  faRightFromBracket,
+  faGear
 } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faHeart, faComment, faHome, faBell, faUser, faMagnifyingGlass)
+library.add(faHeart, faComment, faHome, faBell, faUser, faMagnifyingGlass, faRightFromBracket, faGear)
 
 createApp(App).use(router)
 .component('font-awesome-icon', FontAwesomeIcon)

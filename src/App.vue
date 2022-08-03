@@ -3,7 +3,7 @@
 </template>
 <style>
 body {
-  min-height: 700px !important;
+  min-height: 100vh !important;
   overflow: hidden !important;
   background-color: #f5f5f5;
 }
